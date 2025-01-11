@@ -2,6 +2,65 @@ module XFrames
 
 using Libdl, JSON
 
+const ImGuiCol = Dict(
+    :Text => 0,
+    :TextDisabled => 1,
+    :WindowBg => 2,
+    :ChildBg => 3,
+    :PopupBg => 4,
+    :Border => 5,
+    :BorderShadow => 6,
+    :FrameBg => 7,
+    :FrameBgHovered => 8,
+    :FrameBgActive => 9,
+    :TitleBg => 10,
+    :TitleBgActive => 11,
+    :TitleBgCollapsed => 12,
+    :MenuBarBg => 13,
+    :ScrollbarBg => 14,
+    :ScrollbarGrab => 15,
+    :ScrollbarGrabHovered => 16,
+    :ScrollbarGrabActive => 17,
+    :CheckMark => 18,
+    :SliderGrab => 19,
+    :SliderGrabActive => 20,
+    :Button => 21,
+    :ButtonHovered => 22,
+    :ButtonActive => 23,
+    :Header => 24,
+    :HeaderHovered => 25,
+    :HeaderActive => 26,
+    :Separator => 27,
+    :SeparatorHovered => 28,
+    :SeparatorActive => 29,
+    :ResizeGrip => 30,
+    :ResizeGripHovered => 31,
+    :ResizeGripActive => 32,
+    :Tab => 33,
+    :TabHovered => 34,
+    :TabActive => 35,
+    :TabUnfocused => 36,
+    :TabUnfocusedActive => 37,
+    :PlotLines => 38,
+    :PlotLinesHovered => 39,
+    :PlotHistogram => 40,
+    :PlotHistogramHovered => 41,
+    :TableHeaderBg => 42,
+    :TableBorderStrong => 43,
+    :TableBorderLight => 44,
+    :TableRowBg => 45,
+    :TableRowBgAlt => 46,
+    :TextSelectedBg => 47,
+    :DragDropTarget => 48,
+    :NavHighlight => 49,
+    :NavWindowingHighlight => 50,
+    :NavWindowingDimBg => 51,
+    :ModalWindowDimBg => 52,
+
+   # COUNT can be included if needed
+   :COUNT => 53
+)
+
 # Define the callback types using Ptr{Function}
 COnInitCb = Ptr{Function}
 COnTextChangedCb = Ptr{Function}
@@ -70,14 +129,85 @@ fontDefsJson = JSON.json(fontDefs)
 
 println(fontDefsJson)
 
+const theme2Colors = Dict(
+    :darkestGrey => "#141f2c",
+    :darkerGrey => "#2a2e39",
+    :darkGrey => "#363b4a",
+    :lightGrey => "#5a5a5a",
+    :lighterGrey => "#7A818C",
+    :evenLighterGrey => "#8491a3",
+    :black => "#0A0B0D",
+    :green => "#75f986",
+    :red => "#ff0062",
+    :white => "#fff"
+)
+
+const theme = Dict(
+    :colors => Dict(
+        string(ImGuiCol[:Text]) => [theme2Colors[:white], 1],
+        string(ImGuiCol[:TextDisabled]) => [theme2Colors[:lighterGrey], 1],
+        string(ImGuiCol[:WindowBg]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:ChildBg]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:PopupBg]) => [theme2Colors[:white], 1],
+        string(ImGuiCol[:Border]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:BorderShadow]) => [theme2Colors[:darkestGrey], 1],
+        string(ImGuiCol[:FrameBg]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:FrameBgHovered]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:FrameBgActive]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:TitleBg]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:TitleBgActive]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:TitleBgCollapsed]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:MenuBarBg]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:ScrollbarBg]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:ScrollbarGrab]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:ScrollbarGrabHovered]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:ScrollbarGrabActive]) => [theme2Colors[:darkestGrey], 1],
+        string(ImGuiCol[:CheckMark]) => [theme2Colors[:darkestGrey], 1],
+        string(ImGuiCol[:SliderGrab]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:SliderGrabActive]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:Button]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:ButtonHovered]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:ButtonActive]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:Header]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:HeaderHovered]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:HeaderActive]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:Separator]) => [theme2Colors[:darkestGrey], 1],
+        string(ImGuiCol[:SeparatorHovered]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:SeparatorActive]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:ResizeGrip]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:ResizeGripHovered]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:ResizeGripActive]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:Tab]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:TabHovered]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:TabActive]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:TabUnfocused]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:TabUnfocusedActive]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:PlotLines]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:PlotLinesHovered]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:PlotHistogram]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:PlotHistogramHovered]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:TableHeaderBg]) => [theme2Colors[:black], 1],
+        string(ImGuiCol[:TableBorderStrong]) => [theme2Colors[:lightGrey], 1],
+        string(ImGuiCol[:TableBorderLight]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:TableRowBg]) => [theme2Colors[:darkGrey], 1],
+        string(ImGuiCol[:TableRowBgAlt]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:TextSelectedBg]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:DragDropTarget]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:NavHighlight]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:NavWindowingHighlight]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:NavWindowingDimBg]) => [theme2Colors[:darkerGrey], 1],
+        string(ImGuiCol[:ModalWindowDimBg]) => [theme2Colors[:darkerGrey], 1]
+    )
+)
+
+themeJson = JSON.json(theme)
+
 baseAssetsPath = "./assets"
-rawFontDefs = "{}"
-rawStyleOverrides = "{}"
 
 @ccall $init(
     baseAssetsPath::Cstring,
-    rawFontDefs::Cstring,
-    rawStyleOverrides::Cstring,
+    fontDefsJson::Cstring,
+    themeJson::Cstring,
     on_init_ptr::Ptr{Cvoid},
     on_text_changed_ptr::Ptr{Cvoid},
     on_combo_changed_ptr::Ptr{Cvoid},
