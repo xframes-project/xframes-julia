@@ -1,4 +1,6 @@
-using Libdl
+module XFrames
+
+using Libdl, JSON
 
 # Define the callback types using Ptr{Function}
 COnInitCb = Ptr{Function}
@@ -54,6 +56,20 @@ on_boolean_value_changed_ptr = @cfunction(on_boolean_value_changed, Cvoid, (Cint
 on_multiple_numeric_values_changed_ptr = @cfunction(on_multiple_numeric_values_changed, Cvoid, (Cint, Ptr{Cfloat}, Cint))
 on_click_ptr = @cfunction(on_click, Cvoid, (Cint,))
 
+fontDefs = Dict(
+    "defs" => vcat(map(
+        def -> [Dict("name" => def.name, "size" => size) for size in def.sizes],
+        [
+            (name = "roboto-regular", sizes = [16, 18, 20, 24, 28, 32, 36, 48]),
+        ]
+    )...)
+)
+
+# Convert to JSON string if needed
+fontDefsJson = JSON.json(fontDefs)
+
+println(fontDefsJson)
+
 baseAssetsPath = "./assets"
 rawFontDefs = "{}"
 rawStyleOverrides = "{}"
@@ -62,6 +78,7 @@ rawStyleOverrides = "{}"
     baseAssetsPath::Cstring,
     rawFontDefs::Cstring,
     rawStyleOverrides::Cstring,
+    on_init_ptr::Ptr{Cvoid},
     on_text_changed_ptr::Ptr{Cvoid},
     on_combo_changed_ptr::Ptr{Cvoid},
     on_numeric_value_changed_ptr::Ptr{Cvoid},
@@ -73,4 +90,4 @@ rawStyleOverrides = "{}"
 println("Press Enter to continue...")
 readline()
 
-
+end

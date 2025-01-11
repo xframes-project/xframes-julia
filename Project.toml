@@ -1,0 +1,11 @@
+name = "XFrames"
+uuid = "d0ea6873-b965-4d62-bd78-9928a8844433"
+authors = ["Andrea Mancuso <and.mancuso@googlemail.com>"]
+version = "0.1.0"
+
+[deps]
+Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+
+[compat]
+JSON = "0.21.4"
