@@ -70,10 +70,37 @@ COnBooleanValueChangedCb = Ptr{Function}
 COnMultipleNumericValuesChangedCb = Ptr{Function}
 COnClickCb = Ptr{Function}
 
+xframes = dlopen("./libxframesshared.so")
+init = dlsym(xframes, :init)
+setElement = dlsym(xframes, :setElement)
+setChildren = dlsym(xframes, :setChildren)
+
 # Define the callback functions in Julia
 
 function on_init()
     println("Initialization complete!")
+
+    rootNode = Dict(
+        :id => 0,
+        :type => "node",
+        :root => true
+    )
+
+    rootNodeJson = JSON.json(rootNode)
+
+    unformattedText = Dict(
+        :id => 1,
+        :type => "unformatted-text",
+        :text => "Hello, world"
+    )
+
+    rootNodeJson = JSON.json(rootNode)
+    unformattedTextJson = JSON.json(unformattedText)
+    
+    @ccall $setElement(rootNodeJson::Cstring)::Cvoid
+    @ccall $setElement(unformattedTextJson::Cstring)::Cvoid
+
+    @ccall $setChildren(0::Cint, JSON.json([1])::Cstring)::Cvoid
 end
 
 function on_text_changed(id::Cint, text::Cstring)
@@ -103,8 +130,7 @@ end
 
 # xframes = Libdl.dlopen(abspath("./libxframesshared.so"))
 
-xframes = dlopen("./libxframesshared.so")
-init = dlsym(xframes, :init)
+
 
 # Convert Julia functions to C function pointers
 on_init_ptr = @cfunction(on_init, Cvoid, ())
