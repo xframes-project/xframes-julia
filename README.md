@@ -18,6 +18,10 @@ julia --project=. -e 'using Pkg; Pkg.add("JSON")'
 
 ## Screenshots
 
+Windows 11
+
+![image](https://github.com/user-attachments/assets/390cf3d2-2dfa-4010-8d21-e4c99316106f)
+
 x64 Ubuntu 24.04
 
 ![image](https://github.com/user-attachments/assets/361db09f-d36f-4aad-a82c-76f91514c677)
