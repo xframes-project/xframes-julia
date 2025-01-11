@@ -70,7 +70,12 @@ COnBooleanValueChangedCb = Ptr{Function}
 COnMultipleNumericValuesChangedCb = Ptr{Function}
 COnClickCb = Ptr{Function}
 
-xframes = dlopen("./libxframesshared.so")
+if Sys.iswindows()
+    xframes = dlopen("./xframesshared.dll")
+elseif Sys.isunix()
+    xframes = dlopen("./libxframesshared.so")
+end
+
 init = dlsym(xframes, :init)
 setElement = dlsym(xframes, :setElement)
 setChildren = dlsym(xframes, :setChildren)
